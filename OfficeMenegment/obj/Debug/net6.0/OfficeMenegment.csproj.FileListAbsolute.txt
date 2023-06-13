@@ -80,3 +80,4 @@ E:\ASP.NET\Projects\OfficeMenegment\OfficeMenegment\obj\Debug\net6.0\refint\Offi
 E:\ASP.NET\Projects\OfficeMenegment\OfficeMenegment\obj\Debug\net6.0\OfficeMenegment.pdb
 E:\ASP.NET\Projects\OfficeMenegment\OfficeMenegment\obj\Debug\net6.0\OfficeMenegment.genruntimeconfig.cache
 E:\ASP.NET\Projects\OfficeMenegment\OfficeMenegment\obj\Debug\net6.0\ref\OfficeMenegment.dll
+E:\ASP.NET\Projects\OfficeMenegment\OfficeMenegment\bin\Debug\net6.0\libman.json

@@ -13,6 +13,7 @@
                 <th>Department</th>
                 <th>DateBirthday</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +27,18 @@
                     <td>@employee.Department</td>
                     <td>@employee.DateBirthday.ToString("d")</td>
                     <td>
-                        <a asp-action="Update" asp-route-id="@employee.Id">View</a>
+                        <a asp-action="Update" asp-route-id="@employee.Id">
+                            <span title="Edit">
+                                <i class="fas fa-sharp fa-regular fa-user-pen"></i>
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-controller="Employees" asp-route-id="@employee.Id">
+                            <span title="Delete">
+                                <i class="fas fa-solid fa-user-xmark"></i>
+                            </span>
+                        </a>
                     </td>
                 </tr>
             }

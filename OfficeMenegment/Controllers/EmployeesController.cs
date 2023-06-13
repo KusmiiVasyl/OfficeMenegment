@@ -88,6 +88,18 @@ public class EmployeesController : Controller
 
         return RedirectToAction("Index"); //TODO create redirect to not update
     }
+    
+    public async Task<IActionResult> Delete(int id)
+    {
+        var employee = await _officeMenegmentDbContext.Employees.FindAsync(id);
 
+        if(employee != null)
+        {
+            _officeMenegmentDbContext.Remove(employee);
+            await _officeMenegmentDbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+        return RedirectToAction("Index"); //TODO Redirect when do not delete
+    }
 
 }
