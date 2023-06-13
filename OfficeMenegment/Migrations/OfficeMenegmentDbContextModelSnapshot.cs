@@ -24,9 +24,11 @@ namespace OfficeMenegment.Migrations
 
             modelBuilder.Entity("OfficeMenegment.Models.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateBirthday")
                         .HasColumnType("datetime2");

@@ -12,7 +12,7 @@ using OfficeMenegment.Data;
 namespace OfficeMenegment.Migrations
 {
     [DbContext(typeof(OfficeMenegmentDbContext))]
-    [Migration("20230612115129_OfficeMenegment Migration")]
+    [Migration("20230612164538_OfficeMenegment Migration")]
     partial class OfficeMenegmentMigration
     {
         /// <inheritdoc />
@@ -27,9 +27,11 @@ namespace OfficeMenegment.Migrations
 
             modelBuilder.Entity("OfficeMenegment.Models.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateBirthday")
                         .HasColumnType("datetime2");

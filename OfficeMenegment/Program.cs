@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var dataBaseConnectionString = builder.Configuration.GetConnectionString("OfficeMenegmentConnectionString");
+var dataBaseConnectionString = builder.Configuration.GetConnectionString("OfficeMenegmentDbConnectionString");
 
 builder.Services.AddDbContext<OfficeMenegmentDbContext>(options => options.UseSqlServer(dataBaseConnectionString));
 

@@ -9,6 +9,6 @@ namespace OfficeMenegment.Data
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeModel> Employees { get; set; }
     }
 }
