@@ -18,11 +18,26 @@ public class EmployeesController : Controller
     public async Task<IActionResult> Index()
     {
         var employees = await _officeMenegmentDbContext.Employees.ToListAsync();
+
+        foreach (var employee in employees)
+        {
+            var employeeDepartments = _officeMenegmentDbContext.Set<EmployeeDbModel>()
+            .Where(d => d.Id == employee.Id)
+            .Select(d => d.Departments)
+            .ToList();
+
+            employee.Departments = new List<DepartmentDbModel>();
+            foreach(var department in employeeDepartments[0])
+            {
+               employee.Departments.Add(department);
+            }
+        }
+
         return View(employees);
     }
 
     [HttpGet]
-    public IActionResult Add()
+    public async Task<IActionResult> Add()
     {
         return View();
     }
@@ -30,13 +45,13 @@ public class EmployeesController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(AddEmployeeViewModel addEmployeeRequest)
     {
-        var employee = new EmployeeModel
+        var employee = new EmployeeDbModel
         {
             Id = 0,
             FirstName = addEmployeeRequest.FirstName,
             LastName = addEmployeeRequest.LastName,
             Salary = addEmployeeRequest.Salary,
-            Department = addEmployeeRequest.Department,
+            Departments = addEmployeeRequest.Departments,
             DateBirthday = addEmployeeRequest.DateBirthday
         };
 
@@ -51,7 +66,7 @@ public class EmployeesController : Controller
         var employee = await _officeMenegmentDbContext.Employees
             .FirstOrDefaultAsync(e => e.Id == id);
 
-        if(employee != null)
+        if (employee != null)
         {
             var viewEmployee = new UpdateEmployeeViewModel
             {
@@ -59,10 +74,10 @@ public class EmployeesController : Controller
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 Salary = employee.Salary,
-                Department = employee.Department,
+                Departments = employee.Departments,
                 DateBirthday = employee.DateBirthday
             };
-            return await Task.Run(()=> View("Update",viewEmployee));
+            return await Task.Run(() => View("Update", viewEmployee));
         }
 
         return RedirectToAction("Index");
@@ -73,12 +88,12 @@ public class EmployeesController : Controller
     {
         var employee = await _officeMenegmentDbContext.Employees.FindAsync(updateEmployeeView.Id);
 
-        if(employee != null)
+        if (employee != null)
         {
             employee.FirstName = updateEmployeeView.FirstName;
             employee.LastName = updateEmployeeView.LastName;
             employee.Salary = updateEmployeeView.Salary;
-            employee.Department = updateEmployeeView.Department;
+            employee.Departments = updateEmployeeView.Departments;
             employee.DateBirthday = updateEmployeeView.DateBirthday;
 
             await _officeMenegmentDbContext.SaveChangesAsync();
@@ -86,14 +101,14 @@ public class EmployeesController : Controller
             return RedirectToAction("Index");
         }
 
-        return RedirectToAction("Index"); //TODO create redirect to not update
+        return RedirectToAction("Index"); //TODO create redirect when not update
     }
-    
+
     public async Task<IActionResult> Delete(int id)
     {
         var employee = await _officeMenegmentDbContext.Employees.FindAsync(id);
 
-        if(employee != null)
+        if (employee != null)
         {
             _officeMenegmentDbContext.Remove(employee);
             await _officeMenegmentDbContext.SaveChangesAsync();
@@ -102,4 +117,17 @@ public class EmployeesController : Controller
         return RedirectToAction("Index"); //TODO Redirect when do not delete
     }
 
+
+
+    private async Task<List<DepartmentDbModel>> GetAllDepartments()
+    {
+        var departments = await _officeMenegmentDbContext.Departments.ToListAsync();
+
+        if (departments != null)
+        {
+            return departments;
+        }
+
+        return new List<DepartmentDbModel>();
+    }
 }

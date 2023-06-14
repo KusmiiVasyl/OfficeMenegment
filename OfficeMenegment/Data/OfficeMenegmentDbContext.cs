@@ -9,6 +9,15 @@ namespace OfficeMenegment.Data
         {
         }
 
-        public DbSet<EmployeeModel> Employees { get; set; }
+        public DbSet<EmployeeDbModel> Employees { get; set; }
+        public DbSet<DepartmentDbModel> Departments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EmployeeDbModel>()
+                .HasMany(e => e.Departments)
+                .WithMany(d => d.Employees)
+                .UsingEntity(x => x.ToTable("DepartmentEmployee"));
+        }
     }
 }

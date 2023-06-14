@@ -1,0 +1,30 @@
+﻿@model List<DepartmentDbModel>
+
+
+<div class="container w-50 align-content-center mt-5">
+    <h2 class="text-center">Check Departments</h2>
+    <form method="post" class="mt-5">
+        @if (Model != null)
+        {
+            @foreach (var department in Model)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="selectedDepartments" value="@department.Name">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        @department.Name
+                    </label>
+                </div>
+            }
+        }
+
+        <div class="container text-center">
+            <button type="submit" class="btn btn-primary">ADD DEPARTMENTS</button>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
