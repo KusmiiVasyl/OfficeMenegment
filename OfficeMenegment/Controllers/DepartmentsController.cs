@@ -81,5 +81,18 @@ namespace OfficeMenegment.Controllers
             return RedirectToAction("Index", "Employees");
         }
 
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var department = await _officeMenegmentDbContext.Departments.FindAsync(id);
+
+            if (department != null)
+            {
+                _officeMenegmentDbContext.Remove(department);
+                await _officeMenegmentDbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index"); //TODO Redirect when do not delete
+        }
     }
 }
