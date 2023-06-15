@@ -17,22 +17,7 @@ public class EmployeesController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var employees = await _officeMenegmentDbContext.Employees.ToListAsync();
-
-        foreach (var employee in employees)
-        {
-            var employeeDepartments = _officeMenegmentDbContext.Set<EmployeeDbModel>()
-            .Where(d => d.Id == employee.Id)
-            .Select(d => d.Departments)
-            .ToList();
-
-            employee.Departments = new List<DepartmentDbModel>();
-            foreach(var department in employeeDepartments[0])
-            {
-               employee.Departments.Add(department);
-            }
-        }
-
+        var employees = await _officeMenegmentDbContext.Employees.Include("Departments").ToListAsync();
         return View(employees);
     }
 
@@ -115,19 +100,5 @@ public class EmployeesController : Controller
             return RedirectToAction("Index");
         }
         return RedirectToAction("Index"); //TODO Redirect when do not delete
-    }
-
-
-
-    private async Task<List<DepartmentDbModel>> GetAllDepartments()
-    {
-        var departments = await _officeMenegmentDbContext.Departments.ToListAsync();
-
-        if (departments != null)
-        {
-            return departments;
-        }
-
-        return new List<DepartmentDbModel>();
     }
 }

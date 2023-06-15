@@ -29,11 +29,23 @@ namespace OfficeMenegment.Controllers
         [HttpPost]
         public async Task<IActionResult> GetNames(List<string> selectedDepartments, int id)
         {
+            // Remove relationship with employee and departments
+            var employees = await _officeMenegmentDbContext.Employees.Include("Departments").ToListAsync();
+            foreach (var item in employees)
+            {
+                if (item.Id == id)
+                {
+                    item.Departments.Clear();
+                }
+            }
+            await _officeMenegmentDbContext.SaveChangesAsync();
+
+            // Add checked relationship with employee and departments
+            var employee = await _officeMenegmentDbContext.Employees.FindAsync(id);
             var departments = await _officeMenegmentDbContext.Departments
                 .Where(d => selectedDepartments.Contains(d.Name))
                 .ToListAsync();
 
-            var employee = await _officeMenegmentDbContext.Employees.FindAsync(id);
             if (departments != null && employee != null)
             {
                 employee.Departments = new List<DepartmentDbModel>();
@@ -44,7 +56,7 @@ namespace OfficeMenegment.Controllers
             }
             await _officeMenegmentDbContext.SaveChangesAsync();
 
-            return View();
+            return RedirectToAction("Index", "Employees");
         }
 
     }
