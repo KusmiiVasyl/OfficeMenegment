@@ -1,0 +1,18 @@
+﻿@using OfficeMenegment.Models.Department
+@model AddDepartmentViewModel
+
+
+<div class="container w-50 align-content-center mt-5">
+    <h2 class="text-center">Add Department</h2>
+    <form method="post" class="mt-5">
+        <div class="mb-3">
+            <label for="" class="form-label">Name of department</label>
+            <input type="text" class="form-control" asp-for="Name">
+        </div>
+
+        <div class="container text-center">
+            <button type="submit" class="btn btn-primary">ADD</button>
+        </div>
+
+    </form>
+</div>

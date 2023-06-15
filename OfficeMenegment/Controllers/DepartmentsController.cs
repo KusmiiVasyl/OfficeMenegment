@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OfficeMenegment.Data;
 using OfficeMenegment.Models;
-
+using OfficeMenegment.Models.Department;
 
 namespace OfficeMenegment.Controllers
 {
@@ -15,9 +15,31 @@ namespace OfficeMenegment.Controllers
             _officeMenegmentDbContext = officeMenegmentDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            var departments = await _officeMenegmentDbContext.Departments.Include("Employees").ToListAsync();
+            return View(departments);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddDepartmentViewModel addDepartment)
+        {
+            var department = new DepartmentDbModel
+            {
+                Id = 0,
+                Name = addDepartment.Name,
+                Employees = addDepartment.Employees
+            };
+
+            await _officeMenegmentDbContext.Departments.AddAsync(department);
+            await _officeMenegmentDbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> GetNames()

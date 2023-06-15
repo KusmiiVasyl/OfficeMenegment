@@ -1,5 +1,40 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<DepartmentDbModel>
+
+<div class="container w-75">
+    <h2 class="text-center">Departments</h2>
+
+    <div>
+        <div class="container text-end mt-5 mb-3">
+            <a asp-action="Add" class="me-5" title="Add department">
+                    <i class="fas fa-solid fa-circle-plus fa-lg"></i>
+             </a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Employees</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <td>@department.Id</td>
+                    <td>@department.Name</td>
+                    <td>
+                        @foreach (var employee in department.Employees)
+                        {
+                            <p>@employee.FirstName @employee.LastName</p>
+                        }
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
